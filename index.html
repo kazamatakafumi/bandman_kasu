@@ -38,9 +38,37 @@
     color: rgba(255,255,255,.28);
     font-size: 10px;
     letter-spacing: .1em;
+    overflow: hidden;
   }
   .ad-slot.ad-top{ height: var(--ad-top-h); border-top: none; }
   .ad-slot.ad-bottom{ height: var(--ad-bottom-h); border-bottom: none; }
+  .tour-ticker{
+    display:flex; align-items:center; width:100%; height:100%;
+    text-decoration:none;
+    background: linear-gradient(90deg, #ff3d7f 0%, #c21e5c 22%, #8a3fd1 45%, #2c7ea8 68%, #e8b84b 88%, #ff3d7f 100%);
+    background-size: 300% 100%;
+    animation: tourBgShift 10s ease-in-out infinite;
+  }
+  @keyframes tourBgShift{
+    0%{ background-position: 0% 50%; }
+    50%{ background-position: 100% 50%; }
+    100%{ background-position: 0% 50%; }
+  }
+  .tour-ticker .tour-track{
+    display:inline-flex; align-items:center; white-space:nowrap;
+    animation: tourScroll 26s linear infinite;
+  }
+  .tour-ticker:hover .tour-track{ animation-play-state: paused; }
+  .tour-ticker .tour-badge{
+    color:#fff; font-weight: 900; letter-spacing:.08em; margin-right: 12px;
+    text-shadow: 0 1px 4px rgba(0,0,0,.5);
+  }
+  .tour-ticker .tour-item{ color:#fff; font-weight:700; margin-right: 28px; letter-spacing:.03em; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
+  .tour-ticker .tour-item b{ color:#fff2a8; font-weight:900; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+  @keyframes tourScroll{
+    0%{ transform: translateX(0); }
+    100%{ transform: translateX(-50%); }
+  }
   .app-mid{
     flex: 1 1 auto;
     min-height: 0;
@@ -391,7 +419,24 @@
 <body>
 
 <div id="app">
-  <div class="ad-slot ad-top">広告枠（バナー）</div>
+  <a class="ad-slot ad-top tour-ticker" href="https://eplus.jp/sf/word/0000039844" target="_blank" rel="noopener">
+    <span class="tour-track">
+      <span class="tour-badge">🎸 3markets[ ] TOUR</span>
+      <span class="tour-item"><b>8/2(日)</b> 大阪 CLUB QUATTRO</span>
+      <span class="tour-item"><b>8/7(金)</b> 愛知 新栄シャングリラ</span>
+      <span class="tour-item"><b>8/24(月)</b> 東京 Zepp Shinjuku</span>
+      <span class="tour-item"><b>9/4(金)</b> 仙台 ROCKATERIA</span>
+      <span class="tour-item"><b>9/5(土)</b> 盛岡 the five morioka</span>
+      <span class="tour-item">チケット情報はこちらをタップ▶</span>
+      <span class="tour-badge">🎸 3markets[ ] TOUR</span>
+      <span class="tour-item"><b>8/2(日)</b> 大阪 CLUB QUATTRO</span>
+      <span class="tour-item"><b>8/7(金)</b> 愛知 新栄シャングリラ</span>
+      <span class="tour-item"><b>8/24(月)</b> 東京 Zepp Shinjuku</span>
+      <span class="tour-item"><b>9/4(金)</b> 仙台 ROCKATERIA</span>
+      <span class="tour-item"><b>9/5(土)</b> 盛岡 the five morioka</span>
+      <span class="tour-item">チケット情報はこちらをタップ▶</span>
+    </span>
+  </a>
   <div class="app-mid">
   <div class="stage bg-home" id="stage">
     <div class="end-overlay" id="endOverlay"></div>
@@ -1704,13 +1749,14 @@ const PORTRAITS_FAT_MAX = {
       const gain = scaledAffectionGain(rawGain);
       state.affection += gain;
       setBackground("home");
-      let text = WAIT_TIERS.success.flavor;
+      let text;
       if(songActive){
         state.affection += scaledAffectionGain(4);
-        text += "\n\n「聴いてくれてんのかよ…さんきゅ…」\n聴くに決まってるのに、照れてる彼も可愛かった。";
+        text = "「聴いてくれてんのかよ…さんきゅ…」\n聴くに決まってるのに、照れてる彼も可愛かった。";
         setPortrait("happy");
         showToast(`好感度+${gain}（新曲の話で上機嫌）`);
       } else {
+        text = WAIT_TIERS.success.flavor;
         setPortrait(WAIT_TIERS.success.portrait);
         showToast(`好感度+${gain}（お金はかからず）`);
       }
